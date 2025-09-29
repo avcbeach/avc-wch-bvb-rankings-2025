@@ -26,7 +26,8 @@ main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
 .rank-badge { background: var(--navy); color: white; padding: 4px 10px; border-radius: 20px; }
 .points { font-size: 1.2em; font-weight: bold; color: var(--navy); }
 .expand-btn { background: none; border: none; font-size: 1.3em; font-weight: bold; cursor: pointer; }
-.contribution-bar { height: 6px; border-radius: 3px; background: #e0e0e0; margin: 0.5rem 0; overflow: hidden; display: flex; position: relative; }
+.contribution-bar { height: 6px; border-radius: 3px; background: #e0e0e0; margin: 0.5rem 0; overflow: hidden; display: flex; position: relative; display:flex; }
+
 .avc-bar { height: 100%; background: var(--navy);  }
 .fivb-bar { height: 100%; background: var(--green);  }
 .contribution-bar:hover::after { content: attr(data-tip); position: absolute; left:0; top:-1.5rem; background:#333; color:white; padding:2px 6px; border-radius:4px; font-size:0.85em; }
@@ -125,8 +126,9 @@ function render(){
     let rank = 1;
     for (let item of data) {
         let cardClass = item['RankGlobal']<=4 ? 'top4-card' : 'card';
-        let avcWidth = item['Total Points'] ? (100 * item['AVC Points'] / item['Total Points']).toFixed(1) : 0;
-        let fivbWidth = item['Total Points'] ? (100 * item['FIVB Points'] / item['Total Points']).toFixed(1) : 0;
+        const sum = (item['AVC Points']||0) + (item['FIVB Points']||0);
+let avcWidth  = sum ? (100 * item['AVC Points'] / sum).toFixed(1) : 0;
+let fivbWidth = sum ? (100 * item['FIVB Points'] / sum).toFixed(1) : 0;
         let tooltip = `${avcWidth}% (${item['AVC Points']} pts) | ${fivbWidth}% (${item['FIVB Points']} pts)`;
         html += `<div class="${cardClass}" data-nf="${item['NF'].toLowerCase()}">
             <div class="card-header">
